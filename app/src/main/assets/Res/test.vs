@@ -4,5 +4,5 @@ uniform mat4 ViewMatrix;
 uniform mat4 ProjectionMatrix;
 
 void main(){
-    gl_Position = ProjectMatrix*ViewMatrix*ModelMatrix*position;
+    gl_Position = ProjectionMatrix*ViewMatrix*ModelMatrix*position;
 }
