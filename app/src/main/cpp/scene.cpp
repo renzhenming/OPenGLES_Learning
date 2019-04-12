@@ -3,7 +3,7 @@
 
 GLuint vbo,ebo;
 GLuint program;
-GLint positionLocation,modelMatrixLocation,viewMatrixLocation,projectMatrixLocation;
+GLint positionLocation,modelMatrixLocation,viewMatrixLocation,projectMatrixLocation,colorLocation;
 glm::mat4 modelMatrix,viewMatrix,projectMatrix;
 
 void Init(){
@@ -13,14 +13,18 @@ void Init(){
 //            0.2f,-0.2f,-0.6f,1.0f,
 //            0.0f,0.2f,-0.6f,1.0f
             //去掉0.6的偏移，交给modelMatrix去做
-            -0.2f,-0.2f,0.0f,1.0f,
-            0.2f,-0.2f,0.0f,1.0f,
-            0.0f,0.2f,0.0f,1.0f
+//            -0.2f,-0.2f,0.0f,1.0f,
+//            0.2f,-0.2f,0.0f,1.0f,
+//            0.0f,0.2f,0.0f,1.0f
+            //增加颜色属性
+            -0.2f,-0.2f,0.0f,1.0f,  1.0f,1.0f,1.0f,1.0f,
+            0.2f,-0.2f,0.0f,1.0f,  0.0f,1.0f,0.0f,1.0f,
+            0.0f,0.2f,0.0f,1.0f,  0.0f,0.0f,0.0f,1.0f,
     };
     glGenBuffers(1,&vbo);
     glBindBuffer(GL_ARRAY_BUFFER,vbo);
     //传递到显卡
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float)*12,data,GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float)*24,data,GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER,0);
 
     //ElementBuffer控制vbo数据的绘制顺序
@@ -45,6 +49,7 @@ void Init(){
     modelMatrixLocation = glGetUniformLocation(program,"ModelMatrix");
     viewMatrixLocation = glGetUniformLocation(program,"ViewMatrix");
     projectMatrixLocation = glGetUniformLocation(program,"ProjectionMatrix");
+    colorLocation = glGetAttribLocation(program,"color");
 
     //modelmatrix做偏移
     modelMatrix = glm::translate(0.0f,0.0f,-0.6f);
@@ -63,7 +68,13 @@ void Draw(){
 
     glBindBuffer(GL_ARRAY_BUFFER,vbo);
     glEnableVertexAttribArray(positionLocation);
-    glVertexAttribPointer(positionLocation,4,GL_FLOAT, GL_FALSE,sizeof(float)*4,0);
+    glVertexAttribPointer(positionLocation,4,GL_FLOAT, GL_FALSE,sizeof(float)*8,0);
+
+    glEnableVertexAttribArray(colorLocation);
+    //sizeof(float)*8 表示两个color的起始位置相距8个点，(void*)(sizeof(float)*4)表示第一个color的位置是4
+    glVertexAttribPointer(colorLocation,4,GL_FLOAT,GL_FALSE, sizeof(float)*8,(void*)(sizeof(float)*4));
+
+
     //glDrawArrays(GL_TRIANGLES,0,3);
     //使用ebo绘制
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,ebo);
