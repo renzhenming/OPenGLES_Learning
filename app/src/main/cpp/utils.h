@@ -15,4 +15,6 @@ GLuint CreateProgram(GLuint vsShader,GLuint fsShader);
 
 float GetFrameTime();
 
+unsigned char * DecodeBMP(unsigned char *bmpFileData,int &width,int &height);
+
 #endif //OPENGLES_UTILS_H
