@@ -13,4 +13,6 @@ GLuint CompileShader(GLenum shaderType,const char* shaderCode);
 
 GLuint CreateProgram(GLuint vsShader,GLuint fsShader);
 
+float GetFrameTime();
+
 #endif //OPENGLES_UTILS_H

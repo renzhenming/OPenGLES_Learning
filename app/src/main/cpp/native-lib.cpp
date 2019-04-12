@@ -1,6 +1,7 @@
 #include "ggl.h"
 #include "scene.h"
 #include "utils.h"
+#include <sys/time.h>
 
 static AAssetManager *assetManager = NULL;
 
@@ -18,6 +19,17 @@ unsigned char *LoadFileContent(const char *path, int &filesize) {
     fileContent[filesize] = '\0';
     AAsset_close(asset);
     return fileContent;
+}
+
+float GetFrameTime(){
+    static unsigned long long lastTime = 0,currentTime = 0;
+    timeval current;
+    gettimeofday(&current, NULL);
+    //转化为毫秒
+    currentTime = current.tv_sec*1000+current.tv_usec/1000;
+    unsigned long long frameTime = lastTime == 0?0:currentTime - lastTime;
+    lastTime = currentTime;
+    return float(frameTime)/1000.0f;
 }
 
 extern "C"
