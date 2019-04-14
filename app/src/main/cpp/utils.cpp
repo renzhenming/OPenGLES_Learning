@@ -59,9 +59,36 @@ unsigned char *DecodeBMP(unsigned char *bmpFileData, int &width, int &height) {
     return NULL;
 }
 
+GLuint CreateTexture2D(unsigned char* pixelData,int width,int height,GLenum type){
+    GLuint texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D,texture);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
+    glTexImage2D(GL_TEXTURE_2D,0,type,width,height,0,type,GL_UNSIGNED_BYTE,pixelData);
+    glBindTexture(GL_TEXTURE_2D,0);
+    return texture;
+}
 
+GLuint CreateTexture2DFromBMP(const char *bmpPath){
+    int fileSize = 0;
+    unsigned char * bmpFileContent = LoadFileContent(bmpPath,fileSize);
+    if(bmpFileContent == NULL){
+        return 0;
+    }
+    int bmpWidth = 0,bmpHeight = 0;
+    unsigned char* pixelData = DecodeBMP(bmpFileContent,bmpWidth,bmpHeight);
+    if(bmpWidth == 0){
+        delete bmpFileContent;
+        return 0;
+    }
 
-
+    GLuint texture = CreateTexture2D(pixelData,bmpWidth,bmpHeight,GL_RGB);
+    delete bmpFileContent;
+    return texture;
+}
 
 
 
