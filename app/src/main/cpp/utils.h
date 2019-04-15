@@ -21,4 +21,6 @@ GLuint CreateTexture2D(unsigned char* pixelData,int width,int height,GLenum type
 
 GLuint CreateTexture2DFromBMP(const char *bmpPath);
 
+GLuint CreateBufferObject(GLenum bufferType,GLsizeiptr size,GLenum useage,void *data = NULL);
+
 #endif //OPENGLES_UTILS_H

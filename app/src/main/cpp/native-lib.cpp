@@ -3,6 +3,10 @@
 #include "utils.h"
 #include <sys/time.h>
 
+//////////////////////测试用
+#include <android/native_window.h>
+#include <android/native_window_jni.h>
+
 static AAssetManager *assetManager = NULL;
 
 unsigned char *LoadFileContent(const char *path, int &filesize) {
@@ -21,15 +25,15 @@ unsigned char *LoadFileContent(const char *path, int &filesize) {
     return fileContent;
 }
 
-float GetFrameTime(){
-    static unsigned long long lastTime = 0,currentTime = 0;
+float GetFrameTime() {
+    static unsigned long long lastTime = 0, currentTime = 0;
     timeval current;
     gettimeofday(&current, NULL);
     //转化为毫秒
-    currentTime = current.tv_sec*1000+current.tv_usec/1000;
-    unsigned long long frameTime = lastTime == 0?0:currentTime - lastTime;
+    currentTime = current.tv_sec * 1000 + current.tv_usec / 1000;
+    unsigned long long frameTime = lastTime == 0 ? 0 : currentTime - lastTime;
     lastTime = currentTime;
-    return float(frameTime)/1000.0f;
+    return float(frameTime) / 1000.0f;
 }
 
 extern "C"

@@ -90,7 +90,14 @@ GLuint CreateTexture2DFromBMP(const char *bmpPath){
     return texture;
 }
 
-
+GLuint CreateBufferObject(GLenum bufferType,GLsizeiptr size,GLenum useage,void *data){
+    GLuint object;
+    glGenBuffers(1, &object);
+    glBindBuffer(bufferType,object);
+    glBufferData(bufferType,size,data,useage);
+    glBindBuffer(bufferType,0);
+    return object;
+}
 
 
 
