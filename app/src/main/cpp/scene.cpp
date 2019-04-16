@@ -19,9 +19,9 @@ void Init() {
 //            0.2f,-0.2f,0.0f,1.0f,
 //            0.0f,0.2f,0.0f,1.0f
             //增加颜色属性
-            -0.2f, -0.2f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
-            0.2f, -0.2f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-            0.0f, 0.2f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.5f, 1.0f
+            -0.2f, -0.2f, 0.0f, 1.0f,  1.0f, 1.0f, 1.0f, 1.0f,  0.0f, 0.0f,
+            0.2f, -0.2f, 0.0f, 1.0f,  0.0f, 1.0f, 0.0f, 1.0f,  1.0f, 0.0f,
+            0.0f, 0.2f, 0.0f, 1.0f,  0.0f, 0.0f, 0.0f, 1.0f,  0.5f, 1.0f
     };
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -55,7 +55,7 @@ void Init() {
 
     texcoordLocation = glGetAttribLocation(program, "texcoord");
     textureLocation = glGetUniformLocation(program, "U_Texture");
-    texture = CreateTexture2DFromBMP("Res/test.bmp");
+    texture = CreateTexture2DFromBMP("Res/test2.bmp");
 
     //modelmatrix做偏移
     modelMatrix = glm::translate(0.0f, 0.0f, -0.6f);
