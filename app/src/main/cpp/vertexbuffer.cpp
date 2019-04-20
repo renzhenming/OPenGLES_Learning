@@ -9,6 +9,7 @@ void VertexBuffer::SetSize(int vertexCount) {
     this->vertexCount = vertexCount;
     vertex = new Vertex[vertexCount];
     memset(vertex, 0, sizeof(Vertex) * vertexCount);
+    vbo = CreateBufferObject(GL_ARRAY_BUFFER, sizeof(Vertex) * vertexCount, GL_STATIC_DRAW, NULL);
 }
 
 void VertexBuffer::SetPosition(int index, float x, float y, float z, float w) {
@@ -35,4 +36,17 @@ void VertexBuffer::SetNormal(int index, float x, float y, float z) {
     vertex[index].Normal[1] = y;
     vertex[index].Normal[2] = z;
     vertex[index].Normal[3] = 1.0;
+}
+
+void VertexBuffer::Bind() {
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex) * vertexCount, vertex);
+}
+
+Vertex &VertexBuffer::Get(int index) {
+    return vertex[index];
+}
+
+void VertexBuffer::UnBind() {
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

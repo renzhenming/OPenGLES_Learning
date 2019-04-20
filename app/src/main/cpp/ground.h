@@ -7,12 +7,16 @@
 
 #include "vertexbuffer.h"
 #include "utils.h"
+#include "shader.h"
 
 class Ground{
     VertexBuffer *vertexBuffer;
     GLuint  vbo;
+    Shader *shader;
+    glm::mat4 modelMatrix;
 public:
-    void init();
+    void Init();
+    void Draw(glm::mat4 &viewMatrix,glm::mat4 &projectMatrix);
 };
 
 #endif //OPENGLES_GROUND_H

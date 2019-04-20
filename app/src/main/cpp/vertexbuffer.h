@@ -19,7 +19,7 @@ class VertexBuffer {
 public:
     Vertex *vertex;
     int vertexCount;
-
+    GLuint vbo;
     void SetSize(int vertexCount);
 
     void SetPosition(int index, float x, float y, float z, float w = 1.0f);
@@ -29,6 +29,12 @@ public:
     void SetTexcoord(int index, float x, float y);
 
     void SetNormal(int index, float x, float y, float z);
+
+    void Bind();
+
+    void UnBind();
+
+    Vertex& Get(int index);
 };
 
 #endif //OPENGLES_VERTEXBUFFER_H

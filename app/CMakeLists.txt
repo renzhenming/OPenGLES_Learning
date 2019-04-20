@@ -19,7 +19,10 @@ add_library( # Sets the name of the library.
         # Provides a relative path to your source file(s).
         src/main/cpp/native-lib.cpp
         src/main/cpp/utils.cpp
-        src/main/cpp/scene.cpp)
+        src/main/cpp/scene.cpp
+        src/main/cpp/ground.cpp
+        src/main/cpp/vertexbuffer.cpp
+        src/main/cpp/shader.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by

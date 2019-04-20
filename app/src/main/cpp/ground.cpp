@@ -4,7 +4,7 @@
 
 #include "ground.h"
 
-void Ground::init() {
+void Ground::Init() {
     vertexBuffer = new VertexBuffer();
     vertexBuffer->SetSize(1600);
 
@@ -30,5 +30,17 @@ void Ground::init() {
             vertexBuffer->SetColor(offset+3,r,g,b,a);
         }
     }
-    vbo=CreateBufferObject(GL_ARRAY_BUFFER,sizeof(Vertex)*vertexBuffer->vertexCount,GL_STATIC_DRAW,vertexBuffer->vertex);
+    shader = new Shader();
+    shader->Init("Res/ground.vs","Res/ground.fs");
+}
+
+void Ground::Draw(glm::mat4 &viewMatrix, glm::mat4 &projectMatrix) {
+    glEnable(GL_DEPTH_TEST);
+    //注意两个bind的顺序
+    vertexBuffer->Bind();
+    shader->Bind(glm::value_ptr(modelMatrix),glm::value_ptr(viewMatrix),glm::value_ptr(projectMatrix));
+    for (int i = 0; i < 400; ++i) {
+        glDrawArrays(GL_TRIANGLE_STRIP,i*4,4);
+    }
+    vertexBuffer->UnBind();
 }
