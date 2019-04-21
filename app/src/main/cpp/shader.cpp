@@ -28,12 +28,21 @@ void Shader::Init(const char *vs, const char *fs) {
 }
 
 void Shader::SetTexture(const char *name, const char *path) {
-    if (uniformTexture.location == -1) {
-        GLint location = glGetUniformLocation(program, name);
-        if (location != -1) {
-            uniformTexture.location = location;
-            uniformTexture.texture = CreateTexture2DFromBMP(path);
+    //使用find，返回的是被查找元素的位置，没有则返回map.end()
+    auto iterator = uniformTextures.find(name);
+    if(iterator == uniformTextures.end()){
+        GLint location = glGetUniformLocation(program,name);
+        if(location != -1){
+            UniformTexture *texture = new UniformTexture;
+            texture->location = location;
+            texture->texture = CreateTexture2DFromBMP(path);
+            uniformTextures.insert(std::pair<std::string,UniformTexture*>(name,texture));
         }
+    }else{
+        //first会得到key，
+        //second会得到value。
+        glDeleteTextures(1,&iterator->second->texture);
+        iterator->second->texture = CreateTexture2DFromBMP(path);
     }
 }
 
@@ -43,9 +52,11 @@ void Shader::Bind(float *M, float *V, float *P) {
     glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, V);
     glUniformMatrix4fv(projectMatrixLocation, 1, GL_FALSE, P);
 
-    if (uniformTexture.location != -1) {
-        glBindTexture(GL_TEXTURE_2D, uniformTexture.texture);
-        glUniform1i(uniformTexture.location, 0);
+    int index = 0;
+    for(auto i = uniformTextures.begin();i != uniformTextures.end();i++){
+        glActiveTexture(GL_TEXTURE0+index);
+        glBindTexture(GL_TEXTURE_2D,i->second->texture);
+        glUniform1i(i->second->location,index++);
     }
 
     glEnableVertexAttribArray(positionLocation);

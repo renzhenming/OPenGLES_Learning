@@ -25,7 +25,8 @@ void Init() {
 
     shader = new Shader;
     shader->Init("Res/test.vs","Res/test.fs");
-    shader->SetTexture("U_Texture","Res/test2.bmp");
+    shader->SetTexture("U_Texture","Res/test.bmp");
+    shader->SetTexture("U_Texture2","Res/test2.bmp");
 
     ground.Init();
 }

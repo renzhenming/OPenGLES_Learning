@@ -20,7 +20,7 @@ struct UniformTexture {
 class Shader {
 public:
     GLuint program;
-    UniformTexture uniformTexture;
+    std::map<std::string,UniformTexture*> uniformTextures;
     GLint positionLocation, colorLocation, texcoordLocation, normalLocation;
     GLint modelMatrixLocation, viewMatrixLocation, projectMatrixLocation;
 
