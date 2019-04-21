@@ -3,8 +3,6 @@
 #include "ground.h"
 
 glm::mat4 modelMatrix, viewMatrix, projectMatrix;
-GLint texcoordLocation;
-GLuint texture;
 Ground ground;
 Shader *shader;
 VertexBuffer *vertexBuffer = NULL;
@@ -27,8 +25,7 @@ void Init() {
 
     shader = new Shader;
     shader->Init("Res/test.vs","Res/test.fs");
-    texcoordLocation=glGetUniformLocation(shader->program,"U_Texture");
-    texture=CreateTexture2DFromBMP("Res/test2.bmp");
+    shader->SetTexture("U_Texture","Res/test2.bmp");
 
     ground.Init();
 }
@@ -45,8 +42,6 @@ void Draw() {
     vertexBuffer->Bind();
 
     shader->Bind(glm::value_ptr(modelMatrix),glm::value_ptr(viewMatrix),glm::value_ptr(projectMatrix));
-    glBindTexture(GL_TEXTURE_2D,texture);
-    glUniform1i(GL_TEXTURE_2D,0);
     glDrawArrays(GL_TRIANGLES,0,3);
     vertexBuffer->UnBind();
 }

@@ -7,14 +7,28 @@
 
 #include "ggl.h"
 
-class Shader{
+struct UniformTexture {
+    GLint location;
+    GLuint texture;
+
+    UniformTexture() {
+        location = -1;
+        texture = 0;
+    }
+};
+
+class Shader {
 public:
     GLuint program;
-    GLint positionLocation,colorLocation,texcoordLocation,normalLocation;
-    GLint modelMatrixLocation,viewMatrixLocation,projectMatrixLocation;
+    UniformTexture uniformTexture;
+    GLint positionLocation, colorLocation, texcoordLocation, normalLocation;
+    GLint modelMatrixLocation, viewMatrixLocation, projectMatrixLocation;
 
-    void Init(const char* vs,const char* fs);
-    void Bind(float *M,float *V,float *P);
+    void Init(const char *vs, const char *fs);
+
+    void Bind(float *M, float *V, float *P);
+
+    void SetTexture(const char *name, const char *path);
 };
 
 #endif //OPENGLES_SHADER_H
