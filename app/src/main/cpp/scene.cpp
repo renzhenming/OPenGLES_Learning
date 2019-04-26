@@ -1,15 +1,17 @@
 #include "scene.h"
 #include "utils.h"
 #include "ground.h"
+#include "model.h"
 
 glm::mat4 modelMatrix, viewMatrix, projectMatrix;
 Ground ground;
+Model model;
 Shader *shader;
 VertexBuffer *vertexBuffer = NULL;
 
 void Init() {
     glClearColor(0.1f, 0.4f, 0.6f, 1.0f);
-    vertexBuffer = new VertexBuffer;
+    /*vertexBuffer = new VertexBuffer;
     vertexBuffer->SetSize(3);
     vertexBuffer->SetPosition(0,-0.2f,-0.2f,-0.6f,1.0f);
     vertexBuffer->SetTexcoord(0,0.0f,0.0f);
@@ -26,9 +28,10 @@ void Init() {
     shader = new Shader;
     shader->Init("Res/test.vs","Res/test.fs");
     shader->SetTexture("U_Texture","Res/test.bmp");
-    shader->SetTexture("U_Texture2","Res/test2.bmp");
-
+    shader->SetTexture("U_Texture2","Res/test2.bmp");*/
     ground.Init();
+    model.Init("Res/Sphere.obj");
+    model.SetPosition(0.0f, 0.0f, -4.0f);
 }
 
 void SetViewPortSize(float width, float height) {
@@ -39,10 +42,10 @@ void SetViewPortSize(float width, float height) {
 void Draw() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ground.Draw(viewMatrix, projectMatrix);
-
-    vertexBuffer->Bind();
-
-    shader->Bind(glm::value_ptr(modelMatrix),glm::value_ptr(viewMatrix),glm::value_ptr(projectMatrix));
-    glDrawArrays(GL_TRIANGLES,0,3);
-    vertexBuffer->UnBind();
+    model.Draw(glm::value_ptr(viewMatrix), glm::value_ptr(projectMatrix));
+//    vertexBuffer->Bind();
+//
+//    shader->Bind(glm::value_ptr(modelMatrix),glm::value_ptr(viewMatrix),glm::value_ptr(projectMatrix));
+//    glDrawArrays(GL_TRIANGLES,0,3);
+//    vertexBuffer->UnBind();
 }
